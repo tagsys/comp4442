@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from BookmarkServiceService WSDL service -->
+
+  <service name="BookmarkService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://soap.webservice.comp4442"/>
+      <parameter name="wsdlServiceElement" value="BookmarkServiceService"/>
+      <parameter name="schemaQualified" value="http://soap.webservice.comp4442"/>
+      <parameter name="wsdlServicePort" value="BookmarkService"/>
+      <parameter name="className" value="comp4442.webservice.soap.BookmarkService"/>
+      <parameter name="wsdlPortType" value="BookmarkService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://soap.webservice.comp4442" xmlns:retNS="http://soap.webservice.comp4442" xmlns:rtns="http://soap.webservice.comp4442" name="get" qname="operNS:get" returnQName="retNS:getReturn" returnType="rtns:Bookmark" soapAction="">
+        <parameter xmlns:pns="http://soap.webservice.comp4442" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://soap.webservice.comp4442" xmlns:retNS="http://soap.webservice.comp4442" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="update" qname="operNS:update" returnQName="retNS:updateReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://soap.webservice.comp4442" xmlns:tns="http://soap.webservice.comp4442" qname="pns:bookmark" type="tns:Bookmark"/>
+      </operation>
+      <operation xmlns:operNS="http://soap.webservice.comp4442" xmlns:retNS="http://soap.webservice.comp4442" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="delete" qname="operNS:delete" returnQName="retNS:deleteReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://soap.webservice.comp4442" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://soap.webservice.comp4442" xmlns:retNS="http://soap.webservice.comp4442" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="create" qname="operNS:create" returnQName="retNS:createReturn" returnType="rtns:int" soapAction="">
+        <parameter xmlns:pns="http://soap.webservice.comp4442" xmlns:tns="http://soap.webservice.comp4442" qname="pns:bookmark" type="tns:Bookmark"/>
+      </operation>
+      <operation xmlns:operNS="http://soap.webservice.comp4442" xmlns:retNS="http://soap.webservice.comp4442" xmlns:rtns="http://soap.webservice.comp4442" name="getAll" qname="operNS:getAll" returnQName="retNS:getAllReturn" returnType="rtns:BookmarkCollection" soapAction="">
+      </operation>
+      <parameter name="allowedMethods" value="getAll get update create delete"/>
+
+      <typeMapping xmlns:ns="http://soap.webservice.comp4442" qname="ns:Bookmark" type="java:comp4442.webservice.soap.Bookmark" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://soap.webservice.comp4442" qname="ns:BookmarkCollection" type="java:comp4442.webservice.soap.BookmarkCollection" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <arrayMapping xmlns:ns="http://soap.webservice.comp4442" xmlns:cmp-ns="http://soap.webservice.comp4442" qname="ns:ArrayOfBookmark" type="java:comp4442.webservice.soap.Bookmark[]" innerType="cmp-ns:Bookmark" encodingStyle=""/>
+  </service>
+</deployment>

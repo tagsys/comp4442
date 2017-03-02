@@ -1,0 +1,28 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from BookmarkServiceService WSDL service -->
+
+  <service name="BookmarkService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://soap.comp4442"/>
+      <parameter name="wsdlServiceElement" value="BookmarkServiceService"/>
+      <parameter name="schemaQualified" value="http://soap.comp4442"/>
+      <parameter name="wsdlServicePort" value="BookmarkService"/>
+      <parameter name="className" value="comp4442.soap.BookmarkServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="BookmarkService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getAll" qname="operNS:getAll" xmlns:operNS="http://soap.comp4442" returnQName="retNS:getAllReturn" xmlns:retNS="http://soap.comp4442" returnType="rtns:boolean" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+      </operation>
+      <parameter name="allowedMethods" value="getAll"/>
+
+  </service>
+</deployment>
