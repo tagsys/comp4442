@@ -1,31 +1,24 @@
 package comp4442.webservice.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.jws.WebMethod;
 
-@Path("/BookmarkService")
 public class BookmarkService {
 	
-	private BookmarkCollection collection;
+private BookmarkCollection collection;
 	
 	public BookmarkService()throws Exception{
 		
-		this.collection = BookmarkCollection.load("bookmarks.xml");
+		this.collection = BookmarkUtils.load();
 		
 	}
 	
-	@GET
-	@Path("/bookmarks")
 	public BookmarkCollection getAll(){
 		
 		return this.collection;
 		
 	}
 	
-	@GET
-	@Path("/bookmark/{id}")
-	public Bookmark get(@PathParam("id") int id){
+	public Bookmark get( Integer id){
 		
 		for(Bookmark bookmark : this.collection.getCollection()){
 			
@@ -36,18 +29,20 @@ public class BookmarkService {
 		return null;
 	}
 
-	public int create(Bookmark bookmark)throws Exception{
+	public Integer create(Bookmark bookmark)throws Exception{
 		
-		bookmark.setId(this.collection.getCollection().size()+1);
+		bookmark.setId(this.collection.getCollection().length+1);
 		
-		collection.getCollection().add(bookmark);
+		collection.collection.add(bookmark);
+				
+		BookmarkUtils.save(collection);
 		
-		collection.save();
+		System.out.println("save end");
 		
 		return bookmark.getId();
 	}
-	
-	public boolean update(Bookmark bookmark)throws Exception{
+
+	public Boolean update(Bookmark bookmark)throws Exception{
 		
 		for(Bookmark b : this.collection.getCollection()){
 			
@@ -61,20 +56,22 @@ public class BookmarkService {
 			}
 		}
 		
-		this.collection.save();
+		BookmarkUtils.save(collection);
 	
 		return true;
 		
 	}
-	
-	public boolean delete(int id){
+
+	public Boolean delete(Integer id)throws Exception{
 		
-		for(int i=0;i<this.collection.getCollection().size();i++){
-			if(this.collection.getCollection().get(i).getId() == id){
-				this.collection.getCollection().remove(i);
+		for(int i=0;i<this.collection.collection.size();i++){
+			if(this.collection.collection.get(i).getId() == id){
+				this.collection.collection.remove(i);
 				break;
 			}
 		}
+		
+		BookmarkUtils.save(collection);
 		
 		return true;
 	}
